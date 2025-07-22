@@ -33,8 +33,6 @@ public class bouncingLaser_exercise_2 : MonoBehaviour
             Vector3 incomingDirection = reflectionRays[0].direction; // Get the direction of the incoming ray
             Vector3 vectorProjection = Vector3.Dot(incomingDirection, hits[0].normal) * hits[0].normal; // Calculate the projection of the incoming direction onto the normal
             reflectionDirections[0] = incomingDirection - 2 * vectorProjection; // Calculate the reflection direction
-            Gizmos.color = Color.white; // Change color to yellow if it hits something
-            Gizmos.DrawLine(hits[0].point, hits[0].point + reflectionDirections[0] * laserLength); // Draw the reflected ray
         }
         else
         {
@@ -44,9 +42,9 @@ public class bouncingLaser_exercise_2 : MonoBehaviour
         //Calculate the reflection rays based on the number of bounces
         for (int i = 1; i < bounces; i++)
         {
-            //if (hits[i - 1].collider != null) // Check if the previous hit was valid
-            //{  
-            reflectionRays[i] = new Ray(hits[i - 1].point, reflectionDirections[i - 1]); // Create a new ray from the hit point in the reflected direction
+            if (hits[i - 1].collider != null) // Check if the previous hit was valid
+            {
+                reflectionRays[i] = new Ray(hits[i - 1].point, reflectionDirections[i - 1]); // Create a new ray from the hit point in the reflected direction
                 if (Physics.Raycast(reflectionRays[i], out hits[i], laserLength)) // Check for a hit with the new ray
                 {
                     Gizmos.color = Color.magenta; // Change color to green if it hits something
@@ -56,18 +54,16 @@ public class bouncingLaser_exercise_2 : MonoBehaviour
                     Vector3 incomingDirection = reflectionRays[i].direction; // Get the direction of the incoming ray
                     Vector3 vectorProjection = Vector3.Dot(incomingDirection, hits[i].normal) * hits[i].normal; // Calculate the projection of the incoming direction onto the normal
                     reflectionDirections[i] = incomingDirection - 2 * vectorProjection; // Calculate the reflection direction
-                    Gizmos.color = Color.yellow; // Change color to white for the reflected ray
-                    Gizmos.DrawLine(hits[i].point, hits[i].point + reflectionDirections[i] * laserLength); // Draw the reflected ray
                 }
                 else
                 {
                     Gizmos.color = Color.black; // Keep the color red if nothing is hit
                 }
-            //}
-            //else
-            //{
-            //    break; // Exit if there are no more valid hits
-            //}
+            }
+            else
+            {
+                break; // Exit if there are no more valid hits
+            }
 
         }
     }
