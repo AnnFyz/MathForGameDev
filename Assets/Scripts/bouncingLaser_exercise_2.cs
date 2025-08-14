@@ -32,7 +32,7 @@ public class bouncingLaser_exercise_2 : MonoBehaviour
             Gizmos.DrawSphere(hitPosition, 0.1f); // Draw a sphere at the hit point
             Vector3 incomingDirection = reflectionRays[0].direction; // Get the direction of the incoming ray
             Vector3 vectorProjection = Vector3.Dot(incomingDirection, hits[0].normal) * hits[0].normal; // Calculate the projection of the incoming direction onto the normal
-            reflectionDirections[0] = incomingDirection - 2 * vectorProjection; // Calculate the reflection direction
+            reflectionDirections[0] = incomingDirection - 2 * vectorProjection; // Calculate the reflection direction r = d - 2 * (d * n) * n, where d is the incoming direction and n is the normal of the surface hit
         }
         else
         {
